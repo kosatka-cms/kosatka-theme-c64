@@ -1,0 +1,22 @@
+{
+  "contexts": {},
+  "strings": {
+    "A BASIC listing (10 GOTO …)": "Листинг BASIC (10 GOTO …)",
+    "A disk's directory (LOAD\"$\",8)": "Каталог диска (LOAD\"$\",8)",
+    "Blinking cursor": "Мигающий курсор",
+    "Border colour": "Цвет рамки",
+    "C64": "C64",
+    "Main menu": "Главное меню",
+    "Main menu (under the boot message)": "Главное меню (под экраном загрузки)",
+    "Scanlines": "Строки развёртки",
+    "Screen colour": "Цвет экрана",
+    "Text colour": "Цвет текста",
+    "The Commodore 64's screen - the boot message, the main menu as a BASIC listing, PETSCII frames in the machine's sixteen colours.": "Экран Commodore 64 - сообщение загрузки, главное меню листингом BASIC, PETSCII-рамки в шестнадцати цветах машины.",
+    "The machine's line under the boot message (when the site has no slogan)": "Строка машины под сообщением загрузки (если у сайта нет слогана)",
+    "dark": "тёмная",
+    "pixel": "пиксели",
+    "responsive": "адаптивная",
+    "retro": "ретро",
+    "two-columns": "две колонки"
+  }
+}

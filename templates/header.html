@@ -1,0 +1,68 @@
+{{/* The c64 header: the engine's document start (html_start), then the
+     machine's screen after power on - the account links, the boot message
+     with the site's name ("**** <name> ****") and its slogan (or the
+     machine's line, the "boot_line" setting), READY., the header region (the main menu: as a
+     BASIC listing or a disk's directory, the theme's "menu" setting,
+     menu_block_header below), READY. again and the cursor (blinking -
+     the "cursor_blink" setting). The "scanlines" setting lays the CRT's
+     lines over the page. The admin layout renders "header" too. */}}
+{{define "header"}}
+{{template "html_start" .}}
+{{if themeSetting "scanlines"}}<div class="c64-scanlines" aria-hidden="true"></div>{{end}}
+
+<header class="site-header c64-header" role="banner">
+    <nav class="site-account c64-account" aria-label="{{t "User menu"}}">
+        {{if .user}}
+        <a href="/me">{{t "My profile"}}</a>
+        <a href="/logout">{{t "Log out"}}</a>
+        {{else}}
+        <a href="/login">{{t "Log in"}}</a>
+        {{if registrationOpen}}<a href="/user/register">{{t "Registration"}}</a>{{end}}
+        {{end}}
+    </nav>
+    <div class="c64-boot">
+        <a class="c64-name" href="{{localURL "/"}}" rel="home">**** {{.siteName}} ****</a>
+        {{with or .siteSlogan (themeSetting "boot_line")}}<div class="c64-slogan">{{.}}</div>{{end}}
+    </div>
+    <div class="c64-prompt">READY.</div>
+    {{if regionHasBlocks "header" .}}
+    <div class="c64-prompt">{{if eq (themeSetting "menu") "directory"}}LOAD"$",8{{else}}LIST{{end}}</div>
+    <div class="site-header-region c64-header-region">
+        {{template "region_blocks" (dict "Region" (region "header") "Ctx" .)}}
+    </div>
+    <div class="c64-prompt">READY.</div>
+    {{end}}
+    {{template "c64_cursor"}}
+</header>
+{{end}}
+
+{{/* c64_cursor - the cursor block, blinking unless the theme's
+     "cursor_blink" setting is off. */}}
+{{define "c64_cursor"}}<span class="c64-cursor{{if themeSetting "cursor_blink"}} c64-blink{{end}}" aria-hidden="true"></span>{{end}}
+
+{{/* menu_block_header - the main menu's top links, by the theme's "menu"
+     setting: a BASIC listing (each a numbered line "10 GOTO <title>", the
+     numbers by CSS counters) or a disk's directory (LOAD"$",8: the disk's
+     name - the site's - then each link a file "<blocks> "<title>" PRG",
+     its blocks the title's length, and the blocks free). The current
+     link (or the one leading to it) is in reverse. */}}
+{{define "menu_block_header"}}
+{{$directory := eq (themeSetting "menu") "directory"}}
+<nav class="block block-menu c64-menu {{if $directory}}c64-menu-directory{{else}}c64-menu-listing{{end}}" aria-label="{{or .Placement.Title .Menu.Label}}">
+    {{if $directory}}<div class="c64-dir-head">0 <span class="c64-dir-file">"{{.Ctx.siteName}}"</span> 64 2A</div>{{end}}
+    <ul class="menu">
+        {{range .Items}}
+        <li{{if or .Active .ActiveTrail}} class="active"{{end}}>
+            <a href="{{if .Broken}}#{{else}}{{.URL}}{{end}}"{{if .Active}} aria-current="page"{{end}}>
+                {{- if $directory -}}
+                <span class="c64-dir-size">{{len .Title}}</span><span class="c64-dir-file">"{{.Title}}"</span><span class="c64-dir-type">PRG</span>
+                {{- else -}}
+                <span class="c64-line"></span> GOTO {{.Title}}
+                {{- end -}}
+            </a>
+        </li>
+        {{end}}
+    </ul>
+    {{if $directory}}<div class="c64-dir-foot">664 BLOCKS FREE.</div>{{end}}
+</nav>
+{{end}}

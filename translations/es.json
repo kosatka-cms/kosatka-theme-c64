@@ -1,0 +1,21 @@
+{
+  "strings": {
+    "A BASIC listing (10 GOTO …)": "Un listado BASIC (10 GOTO …)",
+    "A disk's directory (LOAD\"$\",8)": "El directorio de un disco (LOAD\"$\",8)",
+    "Blinking cursor": "Cursor parpadeante",
+    "Border colour": "Color del borde",
+    "C64": "C64",
+    "Main menu": "Menú principal",
+    "Main menu (under the boot message)": "Menú principal (bajo el mensaje de arranque)",
+    "Scanlines": "Líneas de barrido",
+    "Screen colour": "Color de la pantalla",
+    "Text colour": "Color del texto",
+    "The Commodore 64's screen - the boot message, the main menu as a BASIC listing, PETSCII frames in the machine's sixteen colours.": "La pantalla del Commodore 64 - el mensaje de arranque, el menú principal como listado BASIC, marcos PETSCII en los dieciséis colores de la máquina.",
+    "The machine's line under the boot message (when the site has no slogan)": "Línea de la máquina bajo el mensaje de arranque (si el sitio no tiene eslogan)",
+    "dark": "oscuro",
+    "pixel": "píxeles",
+    "responsive": "adaptable",
+    "retro": "retro",
+    "two-columns": "dos columnas"
+  }
+}

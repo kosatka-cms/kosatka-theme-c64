@@ -1,0 +1,24 @@
+{{/* main_column - the c64 layout's content row: the content (breadcrumb,
+     title, the content_top region, content, the content_bottom region)
+     and the sidebar beside it when its region has blocks for this page
+     and it isn't a service page (as the engine's); a flex row that stacks on a phone, the sidebar
+     under the content. */}}
+{{define "main_column"}}
+{{$sidebar := and (not .servicePage) (regionHasBlocks "sidebar" .)}}
+<div class="content c64-columns">
+    <div class="c64-main">
+        {{template "breadcrumb" .}}
+
+        {{template "title" .}}
+
+        {{template "region_blocks" (dict "Region" (region "content_top") "Ctx" .)}}
+
+        {{template "content" .}}
+
+        {{template "region_blocks" (dict "Region" (region "content_bottom") "Ctx" .)}}
+    </div>
+    {{if $sidebar}}
+    <div class="sidebar c64-side">{{template "sidebar.html" .}}</div>
+    {{end}}
+</div>
+{{end}}

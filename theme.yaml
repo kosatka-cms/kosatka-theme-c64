@@ -1,0 +1,88 @@
+# The c64 theme: the Commodore 64's screen - the blue screen in its light
+# blue border, the boot message "**** <site> ****", READY. and a blinking
+# cursor, the main menu as a BASIC listing (10 GOTO …) or a disk's
+# directory (LOAD"$",8), the blocks and the cards in PETSCII frames in the
+# machine's sixteen colours. The engine's regions (so blocks placed for
+# the engine's look, kosatka or late90s stay where they are); the header
+# region is the listing under the boot message.
+name: C64
+# favicon - the theme's icon (the site's, uploaded on Site information,
+# replaces it).
+favicon: /static/images/kosatka-icon.svg
+# The theme's description (Appearance page; entity.ThemeInfo).
+description: The Commodore 64's screen - the boot message, the main menu as a BASIC listing, PETSCII frames in the machine's sixteen colours.
+author: Kosatka
+license: MIT
+# version - this release (the tag vX.Y.Z without its "v"); min_version -
+# the oldest engine release the theme works with.
+version: 0.1.0
+min_version: 0.1.0
+homepage: https://github.com/kosatka-cms/kosatka-theme-c64
+tags: [retro, dark, pixel, two-columns, responsive]
+screenshot: screenshot.jpg
+# default_region - where new blocks go.
+default_region: sidebar
+regions:
+  - id: header
+    label: Main menu (under the boot message)
+  - id: sidebar
+    label: Sidebar
+  # Between the page's title and its content.
+  - id: content_top
+    label: Content top
+  - id: content_bottom
+    label: Content bottom
+  # Inside the node page (dynamic/page.html, forum/topic.html).
+  - id: content_inline
+    label: Inside content (content page)
+  - id: footer
+    label: Footer
+  # The footer's last line (the copyright block on a new site).
+  - id: footer_bottom
+    label: Footer bottom line
+# blocks - the blocks the theme comes with (entity.ThemeBlock): placed
+# when the theme gets its layout for the first time, unless the layout
+# has them.
+blocks:
+  - plugin: copyright
+    region: footer_bottom
+# settings - the theme's options on the Appearance page
+# (entity.ThemeSetting).
+settings:
+  - id: screen
+    label: Screen colour
+    type: color
+    default: "#352879"
+    css_var: --c64-screen
+  - id: border
+    label: Border colour
+    type: color
+    default: "#6c5eb5"
+    css_var: --c64-border
+  - id: text
+    label: Text colour
+    type: color
+    default: "#a9a1f7"
+    css_var: --c64-text
+  - id: menu
+    label: Main menu
+    type: select
+    default: listing
+    options:
+      - value: listing
+        label: A BASIC listing (10 GOTO …)
+      - value: directory
+        label: A disk's directory (LOAD"$",8)
+  - id: cursor_blink
+    label: Blinking cursor
+    type: bool
+    default: true
+  - id: scanlines
+    label: Scanlines
+    type: bool
+    default: true
+  - id: boot_line
+    label: The machine's line under the boot message (when the site has no slogan)
+    type: text
+    default: "64K RAM SYSTEM  38911 BASIC BYTES FREE"
+    max_length: 80

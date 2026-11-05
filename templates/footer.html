@@ -1,0 +1,19 @@
+{{/* The c64 footer: the Commodore's rainbow stripes, the footer region
+     (e.g. a menu), the footer_bottom region (the copyright block on a new
+     site), READY. and the cursor; the engine's scripts and document end
+     (html_scripts, html_end). The admin layout renders "footer" too. */}}
+{{define "footer"}}
+<footer class="site-footer c64-footer">
+    <div class="c64-stripes" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    {{if regionHasBlocks "footer" .}}
+    <div class="site-footer-region">
+        {{template "region_blocks" (dict "Region" (region "footer") "Ctx" .)}}
+    </div>
+    {{end}}
+    {{template "region_blocks" (dict "Region" (region "footer_bottom") "Ctx" .)}}
+    <div class="c64-prompt">READY.</div>
+    {{template "c64_cursor"}}
+</footer>
+{{template "html_scripts" .}}
+{{template "html_end" .}}
+{{end}}

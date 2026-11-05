@@ -1,0 +1,1885 @@
+/* The c64 theme: the Commodore 64's screen over the engine's base.css -
+   the blue screen in its light blue border, the boot message, READY. and
+   the cursor, the main menu as a BASIC listing or a disk's directory, the
+   blocks, cards and comments in PETSCII frames (thick lines, stepped
+   corners) with their titles in reverse, in the machine's sixteen colours
+   (brightened where text must stay readable on the blue). Press Start 2P -
+   the machine's characters, in capitals - for headings, menus, buttons
+   and labels; IBM Plex Mono for the text. It styles the engine's own
+   markup: no field names of a particular site are assumed (field
+   classes: item-field-name-<builtin>, the field types). One scheme, the
+   screen's; its three colours are the theme's settings. */
+
+:root,
+:root[data-bs-theme="dark"] {
+    /* The theme's settings (theme.yaml: screen, border, text). */
+    --c64-screen: #352879;
+    --c64-border: #6c5eb5;
+    --c64-text: #a9a1f7;
+    /* The palette's accents, brightened to read on the screen. */
+    --c64-white: #ffffff;
+    --c64-black: #000000;
+    --c64-red: #883932;
+    --c64-light-red: #f0a090;
+    --c64-cyan: #7fd8de;
+    --c64-purple: #d08ee0;
+    --c64-green: #a6ef94;
+    --c64-yellow: #eef07a;
+    --c64-orange: #e0a35a;
+    --c64-dim: color-mix(in srgb, var(--c64-text) 72%, var(--c64-screen));
+    --c64-raised: color-mix(in srgb, var(--c64-text) 14%, var(--c64-screen));
+    --c64-pixel: "Press Start 2P", "Courier New", monospace;
+    --c64-mono: "IBM Plex Mono", "Courier New", monospace;
+    /* A PETSCII frame's stepped corners: the whole frame, its top only
+       (a title over a block), its bottom only (the block under it). */
+    --c64-notch: polygon(0 6px, 6px 6px, 6px 0, calc(100% - 6px) 0, calc(100% - 6px) 6px, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 6px calc(100% - 6px), 0 calc(100% - 6px));
+    --c64-notch-top: polygon(0 6px, 6px 6px, 6px 0, calc(100% - 6px) 0, calc(100% - 6px) 6px, 100% 6px, 100% 100%, 0 100%);
+    --c64-notch-bottom: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 6px calc(100% - 6px), 0 calc(100% - 6px));
+    /* Bootstrap in the screen's colours. */
+    --bs-body-bg: var(--c64-screen);
+    --bs-body-color: var(--c64-text);
+    --bs-body-font-family: var(--c64-mono);
+    --bs-font-monospace: var(--c64-mono);
+    --bs-emphasis-color: var(--c64-white);
+    --bs-heading-color: var(--c64-white);
+    --bs-secondary-color: var(--c64-dim);
+    --bs-secondary-bg: var(--c64-raised);
+    --bs-tertiary-color: var(--c64-dim);
+    --bs-tertiary-bg: var(--c64-raised);
+    --bs-border-color: var(--c64-text);
+    --bs-border-color-translucent: var(--c64-text);
+    --bs-border-width: 2px;
+    --bs-border-radius: 0;
+    --bs-border-radius-sm: 0;
+    --bs-border-radius-lg: 0;
+    --bs-border-radius-xl: 0;
+    --bs-border-radius-xxl: 0;
+    --bs-border-radius-pill: 0;
+    --bs-box-shadow: none;
+    --bs-box-shadow-sm: none;
+    --bs-box-shadow-lg: none;
+    --bs-link-color: var(--c64-cyan);
+    --bs-link-hover-color: var(--c64-white);
+    --bs-code-color: var(--c64-green);
+    --bs-highlight-bg: var(--c64-yellow);
+    --bs-highlight-color: var(--c64-screen);
+    /* Bootstrap's palette in the machine's colours (badges, text-bg-*,
+       the colour utilities; their rgb triples are the defaults'). */
+    --bs-primary: var(--c64-text);
+    --bs-primary-rgb: 169, 161, 247;
+    --bs-secondary: #959595;
+    --bs-secondary-rgb: 149, 149, 149;
+    --bs-success: var(--c64-green);
+    --bs-success-rgb: 166, 239, 148;
+    --bs-info: var(--c64-cyan);
+    --bs-info-rgb: 127, 216, 222;
+    --bs-warning: var(--c64-yellow);
+    --bs-warning-rgb: 238, 240, 122;
+    --bs-danger: var(--c64-light-red);
+    --bs-danger-rgb: 240, 160, 144;
+    --bs-primary-text-emphasis: var(--c64-white);
+    --bs-success-text-emphasis: var(--c64-green);
+    --bs-info-text-emphasis: var(--c64-cyan);
+    --bs-warning-text-emphasis: var(--c64-yellow);
+    --bs-danger-text-emphasis: var(--c64-light-red);
+    /* The engine's components' accents (profile.css, …). */
+    --kosatka-accent: var(--c64-cyan);
+    --kosatka-accent-hover: var(--c64-white);
+    --kosatka-accent-strong: var(--c64-white);
+    --kosatka-radius: 0;
+    --kosatka-shadow: none;
+    --kosatka-tint: var(--c64-raised);
+    --kosatka-tint-strong: color-mix(in srgb, var(--c64-text) 26%, var(--c64-screen));
+    --kosatka-line: var(--c64-text);
+    --kosatka-link: var(--c64-cyan);
+    --kosatka-highlight: var(--c64-yellow);
+    --kosatka-reading: 52rem;
+    --kosatka-profile-header-bg: var(--c64-raised);
+}
+
+/* The border around the screen; the header, the content and the footer
+   are one screen inside it. */
+html {
+    background: var(--c64-border);
+}
+
+body {
+    padding: 3rem 3.5rem 3.5rem;
+    background: var(--c64-border);
+    color: var(--c64-text);
+    font-family: var(--c64-mono);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+}
+
+.site-header.c64-header,
+body > .container-content,
+.site-footer.c64-footer {
+    width: 100%;
+    max-width: 73rem;
+    margin-right: auto;
+    margin-left: auto;
+    background: var(--c64-screen);
+}
+
+/* An editor's text (TinyMCE: theme_editor_css on a .node-content body):
+   the screen, no border around it. */
+html:has(> .mce-content-body),
+.mce-content-body {
+    background: var(--c64-screen);
+}
+
+.mce-content-body {
+    margin: 0;
+    padding: 1rem;
+}
+
+/* The CRT's lines over everything (the "scanlines" setting). */
+.c64-scanlines {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .16) 0 1px, transparent 1px 3px);
+}
+
+/* The cursor: a block of the text's colour, blinking (the
+   "cursor_blink" setting). */
+.c64-cursor {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -.15em;
+    background: var(--c64-text);
+}
+
+.c64-blink {
+    animation: c64-blink 1s steps(1) infinite;
+}
+
+@keyframes c64-blink {
+    50% { opacity: 0; }
+}
+
+a {
+    color: var(--c64-cyan);
+}
+
+a:hover {
+    color: var(--c64-white);
+}
+
+/* Headings in the machine's characters: a scale for its wide letters
+   (Bootstrap's sizes are for a proportional font). */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--c64-pixel);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: var(--c64-white);
+    overflow-wrap: anywhere;
+}
+
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1rem; }
+h4 { font-size: .875rem; }
+h5 { font-size: .75rem; }
+h6 { font-size: .6875rem; }
+
+::selection {
+    background: var(--c64-text);
+    color: var(--c64-screen);
+}
+
+/* Header: the account keys, the boot message, READY., the listing. */
+.site-header.c64-header {
+    position: static;
+    padding: 1.75rem 2.25rem .25rem;
+    border: 0;
+    backdrop-filter: none;
+    font-family: var(--c64-pixel);
+    font-size: .875rem;
+    line-height: 2;
+    text-transform: uppercase;
+}
+
+.site-account.c64-account {
+    justify-content: flex-end;
+    gap: .75rem;
+    margin-left: 0;
+    font-size: .625rem;
+    line-height: 1.6;
+}
+
+.c64-boot {
+    margin-top: 1rem;
+    text-align: center;
+    line-height: 1.9;
+}
+
+.c64-name {
+    color: var(--c64-text);
+    font-size: clamp(1rem, .55rem + 1.6vw, 1.625rem);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.c64-name:hover {
+    color: var(--c64-white);
+}
+
+.c64-slogan {
+    font-size: .8125rem;
+}
+
+.c64-boot + .c64-prompt {
+    margin-top: 1.625rem;
+}
+
+.c64-header-region.site-header-region {
+    flex: none;
+    order: 0;
+    padding: 0;
+}
+
+/* The main menu as a BASIC listing (10 GOTO …) or a disk's directory. */
+.c64-header-region .c64-menu ul.menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem 1.375rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: c64-line;
+}
+
+.c64-header-region .c64-menu a {
+    display: inline-block;
+    padding: 0 .375rem;
+    color: var(--c64-text);
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.c64-header-region .c64-menu a:hover,
+.c64-header-region .c64-menu .active > a {
+    background: var(--c64-text);
+    color: var(--c64-screen);
+}
+
+.c64-menu-listing li {
+    counter-increment: c64-line 10;
+}
+
+.c64-menu-listing .c64-line::before {
+    content: counter(c64-line);
+}
+
+.c64-header-region .c64-menu-directory ul.menu {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+}
+
+.c64-header-region .c64-menu-directory a {
+    display: inline-grid;
+    grid-template-columns: 5ch minmax(18ch, auto) auto;
+    justify-content: start;
+}
+
+.c64-dir-head,
+.c64-dir-foot {
+    padding: 0 .375rem;
+}
+
+.c64-dir-head {
+    display: inline-block;
+    background: var(--c64-text);
+    color: var(--c64-screen);
+}
+
+.c64-dir-head .c64-dir-file {
+    display: inline-block;
+    min-width: 18ch;
+}
+
+/* Columns: the content, the sidebar beside it; on a phone under it. */
+body > .container-content {
+    padding: 1.5rem 2.25rem 2rem;
+}
+
+.c64-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.c64-main {
+    flex: 999 1 34rem;
+    min-width: 0;
+}
+
+.c64-side {
+    flex: 1 1 18rem;
+    min-width: 0;
+}
+
+/* The page's reading column at the screen's left, as the machine's
+   text. */
+.c64-main > #breadcrumbs,
+.c64-main article.node:not(.node-teaser) {
+    margin-left: 0;
+}
+
+/* Breadcrumbs: LOAD "<the path>",8,1. */
+.breadcrumb {
+    font-family: var(--c64-pixel);
+    font-size: .625rem;
+    line-height: 2;
+    text-transform: uppercase;
+    color: var(--c64-text);
+}
+
+.breadcrumb::before {
+    content: 'LOAD "';
+}
+
+.breadcrumb::after {
+    content: '",8,1';
+}
+
+.breadcrumb a {
+    color: var(--c64-cyan);
+}
+
+.breadcrumb .separator {
+    margin: 0;
+    font-size: 0;
+}
+
+.breadcrumb .separator::before {
+    content: "/";
+    font-size: .625rem;
+}
+
+.container-content h1 {
+    margin-bottom: 1rem;
+    font-size: clamp(1.125rem, .8rem + 1.3vw, 1.75rem);
+    font-weight: 400;
+    line-height: 1.45;
+    letter-spacing: 0;
+    color: var(--c64-white);
+    overflow-wrap: anywhere;
+}
+
+/* Keys: Bootstrap's buttons in reverse (the colour of their kind, an
+   outline one framed), the engine's own actions alike. */
+.btn {
+    --bs-btn-font-family: var(--c64-pixel);
+    --bs-btn-font-size: .6875rem;
+    --bs-btn-font-weight: 400;
+    --bs-btn-line-height: 1.6;
+    --bs-btn-padding-y: .625rem;
+    --bs-btn-padding-x: .875rem;
+    --bs-btn-border-width: 2px;
+    --bs-btn-border-radius: 0;
+    --bs-btn-box-shadow: none;
+    --bs-btn-focus-box-shadow: none;
+    --bs-btn-disabled-opacity: .5;
+    text-transform: uppercase;
+}
+
+.btn-sm {
+    --bs-btn-font-size: .5625rem;
+    --bs-btn-padding-y: .5rem;
+    --bs-btn-padding-x: .625rem;
+}
+
+.btn-lg {
+    --bs-btn-font-size: .8125rem;
+    --bs-btn-padding-y: .875rem;
+    --bs-btn-padding-x: 1.25rem;
+}
+
+.btn-primary,
+.btn-success,
+.btn-info,
+.btn-warning,
+.btn-light {
+    --bs-btn-color: var(--c64-screen);
+    --bs-btn-hover-color: var(--c64-screen);
+    --bs-btn-active-color: var(--c64-screen);
+    --bs-btn-disabled-color: var(--c64-screen);
+    --bs-btn-hover-bg: var(--c64-white);
+    --bs-btn-hover-border-color: var(--c64-white);
+    --bs-btn-active-bg: var(--c64-white);
+    --bs-btn-active-border-color: var(--c64-white);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--c64-text);
+    --bs-btn-border-color: var(--c64-text);
+    --bs-btn-disabled-bg: var(--c64-text);
+    --bs-btn-disabled-border-color: var(--c64-text);
+}
+
+.btn-success {
+    --bs-btn-bg: var(--c64-green);
+    --bs-btn-border-color: var(--c64-green);
+    --bs-btn-disabled-bg: var(--c64-green);
+    --bs-btn-disabled-border-color: var(--c64-green);
+}
+
+.btn-info {
+    --bs-btn-bg: var(--c64-cyan);
+    --bs-btn-border-color: var(--c64-cyan);
+    --bs-btn-disabled-bg: var(--c64-cyan);
+    --bs-btn-disabled-border-color: var(--c64-cyan);
+}
+
+.btn-warning {
+    --bs-btn-bg: var(--c64-yellow);
+    --bs-btn-border-color: var(--c64-yellow);
+    --bs-btn-disabled-bg: var(--c64-yellow);
+    --bs-btn-disabled-border-color: var(--c64-yellow);
+}
+
+.btn-light {
+    --bs-btn-bg: var(--c64-white);
+    --bs-btn-border-color: var(--c64-white);
+    --bs-btn-disabled-bg: var(--c64-white);
+    --bs-btn-disabled-border-color: var(--c64-white);
+}
+
+.btn-danger {
+    --bs-btn-bg: var(--c64-red);
+    --bs-btn-border-color: var(--c64-red);
+    --bs-btn-color: var(--c64-white);
+    --bs-btn-hover-bg: var(--c64-light-red);
+    --bs-btn-hover-border-color: var(--c64-light-red);
+    --bs-btn-hover-color: var(--c64-screen);
+    --bs-btn-active-bg: var(--c64-light-red);
+    --bs-btn-active-border-color: var(--c64-light-red);
+    --bs-btn-active-color: var(--c64-screen);
+    --bs-btn-disabled-bg: var(--c64-red);
+    --bs-btn-disabled-border-color: var(--c64-red);
+    --bs-btn-disabled-color: var(--c64-white);
+}
+
+.btn-secondary,
+.btn-dark,
+.btn-outline-primary,
+.btn-outline-secondary,
+.btn-outline-dark,
+.btn-outline-light {
+    --bs-btn-bg: transparent;
+    --bs-btn-color: var(--c64-text);
+    --bs-btn-border-color: var(--c64-text);
+    --bs-btn-hover-bg: var(--c64-text);
+    --bs-btn-hover-color: var(--c64-screen);
+    --bs-btn-hover-border-color: var(--c64-text);
+    --bs-btn-active-bg: var(--c64-text);
+    --bs-btn-active-color: var(--c64-screen);
+    --bs-btn-active-border-color: var(--c64-text);
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-color: var(--c64-text);
+    --bs-btn-disabled-border-color: var(--c64-text);
+}
+
+.btn-outline-success,
+.btn-outline-info,
+.btn-outline-warning,
+.btn-outline-danger {
+    --bs-btn-bg: transparent;
+    --bs-btn-hover-color: var(--c64-screen);
+    --bs-btn-active-color: var(--c64-screen);
+    --bs-btn-disabled-bg: transparent;
+}
+
+.btn-outline-success {
+    --bs-btn-color: var(--c64-green);
+    --bs-btn-border-color: var(--c64-green);
+    --bs-btn-hover-bg: var(--c64-green);
+    --bs-btn-hover-border-color: var(--c64-green);
+    --bs-btn-active-bg: var(--c64-green);
+    --bs-btn-active-border-color: var(--c64-green);
+}
+
+.btn-outline-info {
+    --bs-btn-color: var(--c64-cyan);
+    --bs-btn-border-color: var(--c64-cyan);
+    --bs-btn-hover-bg: var(--c64-cyan);
+    --bs-btn-hover-border-color: var(--c64-cyan);
+    --bs-btn-active-bg: var(--c64-cyan);
+    --bs-btn-active-border-color: var(--c64-cyan);
+}
+
+.btn-outline-warning {
+    --bs-btn-color: var(--c64-yellow);
+    --bs-btn-border-color: var(--c64-yellow);
+    --bs-btn-hover-bg: var(--c64-yellow);
+    --bs-btn-hover-border-color: var(--c64-yellow);
+    --bs-btn-active-bg: var(--c64-yellow);
+    --bs-btn-active-border-color: var(--c64-yellow);
+}
+
+.btn-outline-danger {
+    --bs-btn-color: var(--c64-light-red);
+    --bs-btn-border-color: var(--c64-light-red);
+    --bs-btn-hover-bg: var(--c64-light-red);
+    --bs-btn-hover-border-color: var(--c64-light-red);
+    --bs-btn-active-bg: var(--c64-light-red);
+    --bs-btn-active-border-color: var(--c64-light-red);
+}
+
+.btn-link {
+    --bs-btn-color: var(--c64-cyan);
+    --bs-btn-hover-color: var(--c64-white);
+    --bs-btn-active-color: var(--c64-white);
+}
+
+.btn:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--c64-white);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+/* The engine's keys that aren't Bootstrap's buttons: the account links,
+   the content's actions, the search, a card's link, a comment's links,
+   back to top. */
+.c64-account a,
+.node-actions .action-link,
+.search-form .search-btn,
+.c64-main .view-list-item > .item-field-name-link .item-field-link,
+.comment-wrapper .message footer a,
+.back-to-top {
+    display: inline-block;
+    padding: .5rem .625rem;
+    border: 0;
+    border-radius: 0;
+    background: var(--c64-text);
+    box-shadow: none;
+    color: var(--c64-screen);
+    font-family: var(--c64-pixel);
+    font-size: .625rem;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.c64-account a:hover,
+.node-actions .action-link:hover,
+.search-form .search-btn:hover,
+.c64-main .view-list-item > .item-field-name-link .item-field-link:hover,
+.comment-wrapper .message footer a:hover,
+.back-to-top:hover {
+    background: var(--c64-white);
+    color: var(--c64-screen);
+    text-decoration: none;
+}
+
+.node-actions .action-link.delete,
+.comment-wrapper .message footer .delete-link {
+    background: var(--c64-red);
+    color: var(--c64-white);
+}
+
+.node-actions .action-link.delete:hover,
+.comment-wrapper .message footer .delete-link:hover {
+    background: var(--c64-light-red);
+    color: var(--c64-screen);
+}
+
+.back-to-top {
+    padding: .75rem;
+    clip-path: var(--c64-notch);
+}
+
+/* Text fields: the screen's, framed, white text, the cursor's colour as
+   the caret; focus: a white frame (not Bootstrap's glow). */
+.form-control,
+.form-select {
+    border: 2px solid var(--c64-text);
+    border-radius: 0;
+    background-color: var(--c64-screen);
+    color: var(--c64-white);
+    caret-color: var(--c64-text);
+    font-family: var(--c64-mono);
+}
+
+.form-control::placeholder {
+    color: var(--c64-dim);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--c64-white);
+    background-color: var(--c64-screen);
+    box-shadow: none;
+    color: var(--c64-white);
+    outline: 2px solid var(--c64-white);
+    outline-offset: 2px;
+}
+
+.form-control:disabled,
+.form-select:disabled {
+    background-color: var(--c64-raised);
+    color: var(--c64-dim);
+}
+
+.form-control::file-selector-button {
+    border: 0;
+    border-radius: 0;
+    background: var(--c64-text);
+    color: var(--c64-screen);
+    font-family: var(--c64-pixel);
+    font-size: .625rem;
+    text-transform: uppercase;
+}
+
+.form-control:hover:not(:disabled):not([readonly])::file-selector-button {
+    background: var(--c64-white);
+}
+
+.tox.tox-tinymce {
+    border: 2px solid var(--c64-text);
+    border-radius: 0;
+}
+
+.form-label,
+.col-form-label {
+    font-family: var(--c64-pixel);
+    font-size: .6875rem;
+    line-height: 1.8;
+    text-transform: uppercase;
+    color: var(--c64-text);
+}
+
+.form-text {
+    color: var(--c64-dim);
+}
+
+.input-group-text {
+    border: 2px solid var(--c64-text);
+    border-radius: 0;
+    background: var(--c64-text);
+    color: var(--c64-screen);
+    font-family: var(--c64-pixel);
+    font-size: .625rem;
+}
+
+/* Check boxes and radio buttons: squares framed in the text's colour,
+   filled when on (a dark tick, an inset block); a switch: a framed track,
+   a square knob. */
+.form-check-input {
+    border: 2px solid var(--c64-text);
+    border-radius: 0;
+    background-color: var(--c64-screen);
+}
+
+.form-check-input[type="radio"] {
+    border-radius: 0;
+}
+
+.form-check-input:checked {
+    border-color: var(--c64-text);
+    background-color: var(--c64-text);
+}
+
+.form-check-input:checked[type="checkbox"] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8h2v2h2V8h2V6h2V4h2v2h-2v2H9v2H7v2H5v-2H3z' fill='%23352879'/%3E%3C/svg%3E");
+}
+
+.form-check-input:checked[type="radio"] {
+    background-image: none;
+    box-shadow: inset 0 0 0 3px var(--c64-screen);
+}
+
+.form-check-input:focus {
+    border-color: var(--c64-white);
+    box-shadow: none;
+    outline: 2px solid var(--c64-white);
+    outline-offset: 2px;
+}
+
+.form-check-input:checked[type="radio"]:focus {
+    box-shadow: inset 0 0 0 3px var(--c64-screen);
+}
+
+.form-switch .form-check-input,
+.form-switch .form-check-input:focus {
+    --bs-form-switch-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Crect x='-3' y='-3' width='6' height='6' fill='%23a9a1f7'/%3E%3C/svg%3E");
+    border-radius: 0;
+}
+
+.form-switch .form-check-input:checked {
+    --bs-form-switch-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Crect x='-3' y='-3' width='6' height='6' fill='%23352879'/%3E%3C/svg%3E");
+}
+
+.form-switch .form-check-input,
+.form-switch .form-check-input:checked[type="checkbox"] {
+    background-image: var(--bs-form-switch-bg);
+}
+
+/* Messages: blocks in reverse, their kind's colour; an error as the
+   machine's ("?…"). */
+.alert {
+    --bs-alert-border-radius: 0;
+    border: 0;
+    background: var(--c64-text);
+    color: var(--c64-screen);
+    font-family: var(--c64-mono);
+    clip-path: var(--c64-notch);
+}
+
+.alert-info,
+.alert-primary {
+    background: var(--c64-cyan);
+}
+
+.alert-success {
+    background: var(--c64-green);
+}
+
+.alert-warning {
+    background: var(--c64-yellow);
+}
+
+.alert-danger {
+    background: var(--c64-red);
+    color: var(--c64-white);
+}
+
+.alert-danger::before {
+    content: "?";
+    font-family: var(--c64-pixel);
+    margin-right: .25rem;
+}
+
+.alert-secondary,
+.alert-light,
+.alert-dark {
+    background: var(--c64-raised);
+    color: var(--c64-text);
+}
+
+.alert a,
+.alert .alert-link {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.alert:not(.alert-danger, .alert-secondary, .alert-light, .alert-dark) .btn-close {
+    --bs-btn-close-filter: none;
+    filter: none;
+}
+
+/* Badges: blocks in the machine's characters. */
+.badge {
+    border-radius: 0;
+    font-family: var(--c64-pixel);
+    font-size: .5625rem;
+    font-weight: 400;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+/* The palette's light colours carry the screen's text (Bootstrap's
+   text-bg-* set white, !important, as for its own darker colours). */
+.text-bg-primary,
+.text-bg-secondary,
+.text-bg-success,
+.text-bg-info,
+.text-bg-warning,
+.text-bg-danger,
+.text-bg-light {
+    color: var(--c64-screen) !important;
+}
+
+/* Tabs and pills: the current one in reverse. */
+.nav-tabs {
+    --bs-nav-tabs-border-width: 2px;
+    --bs-nav-tabs-border-color: var(--c64-text);
+    --bs-nav-tabs-border-radius: 0;
+    --bs-nav-tabs-link-hover-border-color: var(--c64-text);
+    --bs-nav-tabs-link-active-bg: var(--c64-text);
+    --bs-nav-tabs-link-active-color: var(--c64-screen);
+    --bs-nav-tabs-link-active-border-color: var(--c64-text);
+}
+
+.nav-tabs .nav-link,
+.nav-pills .nav-link {
+    font-family: var(--c64-pixel);
+    font-size: .625rem;
+    line-height: 1.6;
+    text-transform: uppercase;
+    color: var(--c64-text);
+}
+
+.nav-pills {
+    --bs-nav-pills-border-radius: 0;
+    --bs-nav-pills-link-active-bg: var(--c64-text);
+    --bs-nav-pills-link-active-color: var(--c64-screen);
+}
+
+/* Tables: framed in the text's colour, the head in reverse. */
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--c64-text);
+    --bs-table-border-color: var(--c64-text);
+    --bs-table-striped-bg: var(--c64-raised);
+    --bs-table-striped-color: var(--c64-text);
+    --bs-table-hover-bg: var(--c64-raised);
+    --bs-table-hover-color: var(--c64-white);
+}
+
+.table > thead {
+    --bs-table-bg: var(--c64-text);
+    --bs-table-color: var(--c64-screen);
+    font-family: var(--c64-pixel);
+    font-size: .625rem;
+    text-transform: uppercase;
+}
+
+/* Menus, windows, cards, lists: the screen framed in the text's
+   colour. */
+.dropdown-menu {
+    --bs-dropdown-bg: var(--c64-screen);
+    --bs-dropdown-color: var(--c64-text);
+    --bs-dropdown-border-color: var(--c64-text);
+    --bs-dropdown-border-width: 2px;
+    --bs-dropdown-border-radius: 0;
+    --bs-dropdown-box-shadow: none;
+    --bs-dropdown-link-color: var(--c64-text);
+    --bs-dropdown-link-hover-color: var(--c64-screen);
+    --bs-dropdown-link-hover-bg: var(--c64-text);
+    --bs-dropdown-link-active-color: var(--c64-screen);
+    --bs-dropdown-link-active-bg: var(--c64-text);
+    --bs-dropdown-divider-bg: var(--c64-text);
+    --bs-dropdown-header-color: var(--c64-dim);
+}
+
+.modal {
+    --bs-modal-bg: var(--c64-screen);
+    --bs-modal-color: var(--c64-text);
+    --bs-modal-border-color: var(--c64-text);
+    --bs-modal-border-width: 6px;
+    --bs-modal-border-radius: 0;
+    --bs-modal-inner-border-radius: 0;
+    --bs-modal-box-shadow: none;
+    --bs-modal-header-border-color: var(--c64-text);
+    --bs-modal-footer-border-color: var(--c64-text);
+}
+
+.modal-header {
+    background: var(--c64-text);
+    color: var(--c64-screen);
+}
+
+.modal-header .modal-title {
+    color: var(--c64-screen);
+    font-size: .875rem;
+}
+
+.modal-header .btn-close {
+    --bs-btn-close-filter: none;
+    filter: none;
+}
+
+.card {
+    --bs-card-bg: var(--c64-screen);
+    --bs-card-color: var(--c64-text);
+    --bs-card-border-color: var(--c64-text);
+    --bs-card-border-width: 2px;
+    --bs-card-border-radius: 0;
+    --bs-card-inner-border-radius: 0;
+    --bs-card-cap-bg: var(--c64-text);
+    --bs-card-cap-color: var(--c64-screen);
+}
+
+.list-group {
+    --bs-list-group-bg: var(--c64-screen);
+    --bs-list-group-color: var(--c64-text);
+    --bs-list-group-border-color: var(--c64-text);
+    --bs-list-group-border-width: 2px;
+    --bs-list-group-border-radius: 0;
+    --bs-list-group-action-hover-bg: var(--c64-raised);
+    --bs-list-group-action-hover-color: var(--c64-white);
+    --bs-list-group-active-bg: var(--c64-text);
+    --bs-list-group-active-color: var(--c64-screen);
+    --bs-list-group-active-border-color: var(--c64-text);
+}
+
+.progress {
+    --bs-progress-bg: var(--c64-raised);
+    --bs-progress-border-radius: 0;
+    --bs-progress-bar-bg: var(--c64-text);
+}
+
+/* Cards: a list on the content's side, each item in a PETSCII frame of
+   the palette's next colour, its title the frame's top in reverse (the
+   newest marked NEW!), then its author, date and section, the cover, the
+   text, its link, tags and counts in a line. By the fields' types and
+   builtin names, not a site's fields. */
+.c64-main .item-list:has(> .view-list-item .item-field-image) {
+    display: block;
+}
+
+.c64-main .view-list-item {
+    --c64-card: var(--c64-cyan);
+}
+
+.c64-main .view-list-item,
+.c64-main .item-list:has(> .view-list-item .item-field-image) > .view-list-item {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: .75rem;
+    margin: 0 0 1.75rem;
+    padding: 0 1.375rem 1.375rem;
+    border: 6px solid var(--c64-card);
+    border-radius: 0;
+    background: var(--c64-screen);
+    box-shadow: none;
+    overflow: visible;
+    transition: none;
+    clip-path: var(--c64-notch);
+}
+
+.c64-main .item-list > .view-list-item:nth-child(6n+2) {
+    --c64-card: var(--c64-yellow);
+}
+
+.c64-main .item-list > .view-list-item:nth-child(6n+3) {
+    --c64-card: var(--c64-green);
+}
+
+.c64-main .item-list > .view-list-item:nth-child(6n+4) {
+    --c64-card: var(--c64-light-red);
+}
+
+.c64-main .item-list > .view-list-item:nth-child(6n+5) {
+    --c64-card: var(--c64-purple);
+}
+
+.c64-main .item-list > .view-list-item:nth-child(6n+6) {
+    --c64-card: var(--c64-orange);
+}
+
+.c64-main .item-list:has(> .view-list-item .item-field-image) > .view-list-item:hover {
+    transform: none;
+}
+
+/* Every field a line of its own unless placed in a row below (the
+   order and the row by the field's kind, below); the engine's card
+   paddings off. */
+.c64-main .view-list-item > .item-field {
+    flex: 1 0 100%;
+    order: 6;
+    margin: 0;
+}
+
+.c64-main .item-list:has(> .view-list-item .item-field-image) > .view-list-item > .item-field {
+    padding: 0;
+}
+
+/* The title: the frame's top, in reverse. */
+.c64-main .view-list-item > .item-field-name-title,
+.c64-main .item-list:has(> .view-list-item .item-field-image) > .view-list-item > .item-field.item-field-name-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: .75rem;
+    order: 0;
+    flex-basis: calc(100% + 2.75rem);
+    margin: 0 -1.375rem 1rem;
+    padding: .625rem 1rem;
+    background: var(--c64-card);
+}
+
+.c64-main .view-list-item .item-field-name-title .item-field-link,
+.c64-main .view-list-item .item-field-name-title .item-field-value {
+    color: var(--c64-screen);
+    font-family: var(--c64-pixel);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.c64-main .view-list-item .item-field-name-title .item-field-link:hover {
+    color: var(--c64-white);
+}
+
+.c64-main .item-list > .view-list-item:first-child > .item-field-name-title::after {
+    content: "NEW!";
+    flex: none;
+    padding: .25rem .5rem;
+    background: var(--c64-yellow);
+    color: var(--c64-screen);
+    font-family: var(--c64-pixel);
+    font-size: .625rem;
+}
+
+.c64-main .item-list > .view-list-item:first-child:nth-child(6n+2) > .item-field-name-title::after {
+    background: var(--c64-screen);
+    color: var(--c64-yellow);
+}
+
+/* The line under the title: author, date, section - small capitals. */
+.c64-main .view-list-item > .item-field-name-author,
+.c64-main .view-list-item > .item-field-name-created_at,
+.c64-main .view-list-item > .item-field-taxonomy:has(> ul.links) {
+    flex: 0 0 auto;
+    color: var(--c64-text);
+    font-family: var(--c64-pixel);
+    font-size: .5625rem;
+    line-height: 2;
+    text-transform: uppercase;
+}
+
+.c64-main .view-list-item > .item-field-name-author {
+    order: 1;
+}
+
+.c64-main .view-list-item > .item-field-name-created_at {
+    order: 2;
+}
+
+.c64-main .view-list-item > .item-field-taxonomy:has(> ul.links) {
+    order: 3;
+}
+
+.c64-main .view-list-item > .item-field-name-author ~ .item-field-name-created_at::before,
+.c64-main .view-list-item > .item-field-taxonomy:has(> ul.links)::before {
+    content: "· ";
+}
+
+.c64-main .view-list-item > .item-field-name-author .item-field-link {
+    font: inherit;
+}
+
+.c64-main .view-list-item > .item-field-date {
+    margin: 0;
+}
+
+.c64-main .view-list-item > .item-field-name-author .item-field-link {
+    color: var(--c64-cyan);
+}
+
+.c64-main .view-list-item > .item-field-taxonomy:has(> ul.links) ul.links {
+    display: inline-flex;
+    margin: 0;
+}
+
+.c64-main .view-list-item > .item-field-taxonomy:has(> ul.links) .taxonomy_term a {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--c64-cyan);
+    font: inherit;
+}
+
+/* The cover, the text. */
+.c64-main .view-list-item > .item-field-image {
+    order: 4;
+    margin-top: 1rem;
+}
+
+.c64-main .view-list-item .item-field-image img {
+    display: block;
+    width: 100%;
+    height: 16.25rem;
+    aspect-ratio: auto;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.c64-main .view-list-item > .item-field-text:not(.item-field-name-title, .item-field-name-author, .item-field-name-link) {
+    order: 5;
+    margin-top: 1rem;
+    color: var(--c64-text);
+    font-size: 1rem;
+}
+
+/* The line at the end: the link (a key), tags, counts. */
+.c64-main .view-list-item > .item-field-name-link,
+.c64-main .view-list-item > .item-field-taxonomy:not(:has(> ul.links)),
+.c64-main .view-list-item > .item-field-number,
+.c64-main .view-list-item > .item-field-name-view_count,
+.c64-main .view-list-item > .item-field-name-comment_count {
+    flex: 0 0 auto;
+    margin-top: 1.125rem;
+    font-family: var(--c64-pixel);
+    font-size: .5625rem;
+    line-height: 2;
+    text-transform: uppercase;
+}
+
+.c64-main .view-list-item > .item-field-name-link {
+    order: 7;
+}
+
+.c64-main .view-list-item > .item-field-taxonomy:not(:has(> ul.links)) {
+    order: 8;
+}
+
+.c64-main .view-list-item > .item-field-taxonomy:not(:has(> ul.links)) a {
+    color: var(--c64-yellow);
+}
+
+.c64-main .view-list-item > .item-field-taxonomy:not(:has(> ul.links)) a::before {
+    content: "#";
+}
+
+.c64-main .view-list-item > .item-field-number,
+.c64-main .view-list-item > .item-field-name-view_count,
+.c64-main .view-list-item > .item-field-name-comment_count {
+    order: 9;
+    color: var(--c64-yellow);
+}
+
+.c64-main .view-list-item > .item-field-name-comment_count {
+    order: 10;
+}
+
+.c64-main .view-list-item ul.links.inline {
+    margin: 0;
+}
+
+/* A list without pictures elsewhere (a teaser list): rows ruled by
+   dashes. */
+.node-teaser {
+    border-bottom: 2px dashed var(--c64-text);
+}
+
+.node-teaser-title {
+    font-family: var(--c64-pixel);
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.6;
+    text-transform: uppercase;
+}
+
+.node-teaser-title a {
+    color: var(--c64-white);
+}
+
+.node-teaser-image img {
+    border-radius: 0;
+}
+
+/* Terms: blocks framed in yellow (a list's badges), plain #links (its
+   tags). */
+.taxonomy_term a {
+    padding: .25rem .5rem;
+    border: 2px solid var(--c64-yellow);
+    border-radius: 0;
+    background: none;
+    color: var(--c64-yellow);
+    font-family: var(--c64-pixel);
+    font-size: .5625rem;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.taxonomy_term a:hover {
+    background: var(--c64-yellow);
+    color: var(--c64-screen);
+}
+
+/* A content page: the meta line in capitals, the picture framed, the
+   text in the text's colour. */
+.article-meta {
+    color: var(--c64-text);
+    font-family: var(--c64-pixel);
+    font-size: .5625rem;
+    line-height: 2;
+    text-transform: uppercase;
+}
+
+.article-meta a {
+    color: var(--c64-cyan);
+    font-weight: 400;
+}
+
+.dynamic-field-image img,
+img.dynamic-field-image {
+    border: 6px solid var(--c64-cyan);
+    border-radius: 0;
+    clip-path: var(--c64-notch);
+}
+
+.node-content {
+    color: var(--c64-text);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+}
+
+.node-content h2,
+.node-content h3,
+.node-content h4,
+.node-content h5,
+.node-content h6 {
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.5;
+}
+
+.node-content h2 {
+    font-size: 1.125rem;
+    color: var(--c64-cyan);
+}
+
+.node-content h3 {
+    font-size: .9375rem;
+    color: var(--c64-yellow);
+}
+
+.node-content h4 {
+    font-size: .8125rem;
+    color: var(--c64-green);
+}
+
+.node-content h5,
+.node-content h6 {
+    font-size: .75rem;
+    color: var(--c64-text);
+}
+
+.node-content li::marker {
+    color: var(--c64-yellow);
+}
+
+.node-content ul {
+    list-style-type: square;
+}
+
+.node-content blockquote {
+    padding: 1rem 1.125rem;
+    border: 6px dashed var(--c64-orange);
+    color: var(--c64-orange);
+    font-size: 1.0625rem;
+    font-style: normal;
+}
+
+.node-content blockquote::before {
+    content: "REM";
+    display: block;
+    margin-bottom: .5rem;
+    font-family: var(--c64-pixel);
+    font-size: .625rem;
+}
+
+.node-content pre,
+.node-content :not(pre) > code {
+    border-radius: 0;
+    background: var(--c64-black);
+    color: var(--c64-green);
+    font-family: var(--c64-mono);
+}
+
+.node-content pre {
+    padding: 1rem 1.125rem;
+    font-size: .9375rem;
+}
+
+.node-content th {
+    background: var(--c64-text);
+    color: var(--c64-screen);
+    font-family: var(--c64-pixel);
+    font-size: .625rem;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.node-content th,
+.node-content td {
+    border: 2px solid var(--c64-text);
+}
+
+.node-content hr,
+.c64-main hr {
+    border: 0;
+    border-top: 4px solid var(--c64-text);
+    opacity: 1;
+}
+
+.node-content img {
+    border-radius: 0;
+}
+
+.item-characteristic {
+    border: 2px dashed var(--c64-text);
+    border-radius: 0;
+    background: none;
+}
+
+.field-list {
+    color: var(--c64-text);
+    font-family: var(--c64-pixel);
+    font-size: .5625rem;
+    text-transform: uppercase;
+}
+
+/* A node's galleries (the galleries module's row with gaps): the
+   previews framed. */
+.node-gallery .content-image-link img {
+    border: 4px solid var(--c64-text);
+    border-radius: 0;
+}
+
+/* Comments: each in a frame (a reply in cyan), its author and date the
+   frame's top in reverse, its links keys. */
+.comment-wrapper {
+    border-top: 4px solid var(--c64-text);
+}
+
+.comment-wrapper > .title {
+    font-size: 1rem;
+    color: var(--c64-green);
+}
+
+.comment-wrapper .auth-notice,
+.auth-notice-bottom,
+.comments-closed-notice {
+    border: 2px solid var(--c64-text);
+    border-radius: 0;
+    background: none;
+}
+
+.comment-wrapper .message {
+    --c64-card: var(--c64-text);
+    display: block;
+    margin: 0 0 1.125rem calc(min(var(--comment-depth, 0), 4) * 2.5rem);
+    padding: 0;
+    border: 6px solid var(--c64-card);
+    border-radius: 0;
+    background: var(--c64-screen);
+    clip-path: var(--c64-notch);
+}
+
+.comment-wrapper .message[class*="comment-depth-"] {
+    --c64-card: var(--c64-cyan);
+}
+
+.comment-wrapper .message .avatar-user {
+    display: none;
+}
+
+.comment-wrapper .message-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .25rem 1rem;
+    margin: 0;
+    padding: .5rem .75rem;
+    background: var(--c64-card);
+    color: var(--c64-screen);
+    font-family: var(--c64-pixel);
+    font-size: .5625rem;
+    line-height: 1.8;
+    text-transform: uppercase;
+}
+
+.comment-wrapper .message-title .username,
+.comment-wrapper .message-title .username a,
+.comment-wrapper .message-title .date,
+.comment-wrapper .message-title .reply-to {
+    color: var(--c64-screen);
+    font-weight: 400;
+}
+
+.comment-wrapper .message-content {
+    padding: .875rem 1rem;
+}
+
+.comment-wrapper .message footer {
+    margin: 0;
+    padding: 0 1rem 1rem;
+}
+
+.comment-wrapper .message footer ul.links {
+    gap: .5rem;
+    margin: 0;
+}
+
+.comment-wrapper .message footer a {
+    background: var(--c64-card);
+}
+
+/* Pagination: PAGE keys, the current one in reverse. */
+.pagination .pager li > a,
+.pagination .pager li > span,
+.pagination .pager-current {
+    min-width: 0;
+    padding: .5rem .625rem;
+    border: 2px solid var(--c64-text);
+    border-radius: 0;
+    background: none;
+    color: var(--c64-text);
+    font-family: var(--c64-pixel);
+    font-size: .625rem;
+    line-height: 1.6;
+    text-transform: uppercase;
+}
+
+.pagination .pager li > a:hover,
+.pagination .pager-current {
+    background: var(--c64-text);
+    color: var(--c64-screen);
+}
+
+/* The sidebar: blocks in PETSCII frames, each kind its colour, a title
+   the frame's top in reverse - inside the block (a View's, the latest
+   comments) or before it (a system block's, base.css). */
+.c64-side .block {
+    --c64-frame: var(--c64-text);
+    margin: 0 0 1.5rem;
+    padding: 0 1rem 1rem;
+    border: 6px solid var(--c64-frame);
+    border-radius: 0;
+    background: var(--c64-screen);
+    clip-path: var(--c64-notch);
+}
+
+.c64-side .block:not(:has(> h2, > .block-title)) {
+    padding-top: 1rem;
+}
+
+.c64-side .block:has(.view-list-item) {
+    --c64-frame: var(--c64-cyan);
+}
+
+.c64-side .block:has(> .item-list > ul) {
+    --c64-frame: var(--c64-green);
+}
+
+.c64-side .block.block-menu {
+    --c64-frame: var(--c64-yellow);
+}
+
+.c64-side .block.poll-block {
+    --c64-frame: var(--c64-light-red);
+}
+
+.c64-side .block.tag-cloud {
+    --c64-frame: var(--c64-purple);
+}
+
+.c64-side .block > h2,
+.c64-side .block > .block-title {
+    margin: 0 -1rem .875rem;
+    padding: .5rem .75rem;
+    background: var(--c64-frame);
+    color: var(--c64-screen);
+    font-family: var(--c64-pixel);
+    font-size: .75rem;
+    font-weight: 400;
+    line-height: 1.6;
+    text-transform: uppercase;
+}
+
+.c64-side h2:has(+ .block) {
+    --c64-frame: var(--c64-text);
+    margin: 0;
+    padding: .5rem .75rem;
+    border: 6px solid var(--c64-frame);
+    border-bottom: 0;
+    border-radius: 0;
+    background: var(--c64-frame);
+    color: var(--c64-screen);
+    font-size: .75rem;
+    line-height: 1.6;
+    clip-path: var(--c64-notch-top);
+}
+
+.c64-side h2:has(+ .poll-block) {
+    --c64-frame: var(--c64-light-red);
+}
+
+.c64-side h2:has(+ .tag-cloud) {
+    --c64-frame: var(--c64-purple);
+}
+
+.c64-side h2:has(+ .block-menu) {
+    --c64-frame: var(--c64-yellow);
+}
+
+.c64-side h2 + .block {
+    padding-top: .875rem;
+    border-top: 0;
+    clip-path: var(--c64-notch-bottom);
+}
+
+/* The search: a framed line with the cursor's caret and a key. */
+.c64-side .block-search {
+    margin-bottom: 1.5rem;
+    border: 6px solid var(--c64-text);
+    background: var(--c64-screen);
+}
+
+.search-form-wrap {
+    position: relative;
+}
+
+.search-form {
+    gap: .5rem;
+    padding: .875rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.search-form:focus-within {
+    border: 0;
+    box-shadow: none;
+}
+
+.search-form .search-icon {
+    display: none;
+}
+
+.search-form input {
+    padding: .5rem .25rem;
+    border-bottom: 2px solid var(--c64-text);
+    color: var(--c64-white);
+    caret-color: var(--c64-text);
+    font-family: var(--c64-pixel);
+    font-size: .6875rem;
+    text-transform: uppercase;
+}
+
+.search-form input:focus {
+    border-bottom-color: var(--c64-white);
+}
+
+.search-form input::placeholder {
+    color: var(--c64-dim);
+}
+
+/* The live search's suggestions under the field. */
+.search_autocomplete_results {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.search_autocomplete_results:not(:empty) {
+    margin: 0 .875rem .875rem;
+    border: 2px solid var(--c64-text);
+}
+
+.search_autocomplete_results li > a,
+.search_autocomplete_results .item_empty,
+.search_autocomplete_results .search-loading {
+    display: flex;
+    gap: .625rem;
+    align-items: center;
+    padding: .5rem .625rem;
+    color: var(--c64-text);
+    text-decoration: none;
+}
+
+.search_autocomplete_results li > a:hover {
+    background: var(--c64-text);
+    color: var(--c64-screen);
+}
+
+.search_autocomplete_results .search_img {
+    flex: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: cover;
+}
+
+.search_autocomplete_results .search_subtitle,
+.search_autocomplete_results .search-add {
+    font-size: .8125rem;
+    opacity: .85;
+}
+
+/* Lists in the sidebar (the popular, …): a title and its count in
+   yellow. */
+.c64-side .view-list-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .75rem;
+    padding: .25rem 0;
+    border: 0;
+}
+
+.c64-side .view-list-item > .item-field {
+    flex: 0 1 auto;
+    min-width: 0;
+}
+
+.c64-side .view-list-item > .item-field-number {
+    flex: none;
+}
+
+.c64-side .view-list-item .item-field-text .item-field-link {
+    color: var(--c64-cyan);
+    font-family: var(--c64-mono);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.c64-side .view-list-item .item-field-text .item-field-link:hover {
+    color: var(--c64-white);
+}
+
+.c64-side .view-list-item .item-field-number {
+    color: var(--c64-yellow);
+    font-family: var(--c64-pixel);
+    font-size: .5625rem;
+}
+
+.c64-side .view-list-item .item-field-number .item-field-label {
+    display: none;
+}
+
+/* The latest comments: "> " lines, the link to all of them in capitals. */
+.c64-side .block .item-list li a {
+    color: var(--c64-text);
+}
+
+.c64-side .block .item-list li a::before {
+    content: "> ";
+    color: var(--c64-green);
+}
+
+.c64-side .block .item-list li a:hover {
+    color: var(--c64-white);
+}
+
+.c64-side .block .more-link a {
+    color: var(--c64-frame);
+    font-family: var(--c64-pixel);
+    font-size: .5625rem;
+    text-transform: uppercase;
+}
+
+/* The poll (the polls module's block): its question in white, the
+   results as bars of blocks. */
+.c64-side .poll-block .poll-block-question {
+    margin: 0 0 .75rem;
+    font-family: var(--c64-mono);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.45;
+    text-transform: none;
+}
+
+.c64-side .poll-block .poll-block-question a {
+    color: var(--c64-white);
+    text-decoration: none;
+}
+
+.c64-side .poll-block .poll-results h4 {
+    font-size: .5625rem;
+    color: var(--c64-text);
+}
+
+.c64-side .poll-block .poll-result-meta {
+    font-size: .875rem;
+}
+
+.c64-side .poll-block .poll-result-bar-bg {
+    height: .75rem;
+    border: 2px solid var(--c64-light-red);
+    border-radius: 0;
+    background: transparent;
+}
+
+.c64-side .poll-block .poll-result-bar-fill {
+    height: 100%;
+    border-radius: 0;
+    background: repeating-linear-gradient(90deg, var(--c64-light-red) 0 8px, transparent 8px 10px);
+}
+
+/* The tag cloud: the machine's characters, bigger and brighter the more
+   a tag is used. */
+.c64-side .tag-cloud-list {
+    gap: .375rem .875rem;
+    font-family: var(--c64-pixel);
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.c64-side .tag-cloud-list a {
+    color: var(--c64-text);
+    text-decoration: none;
+}
+
+.c64-side .tag-cloud-list a:hover {
+    background: var(--c64-text);
+    color: var(--c64-screen);
+}
+
+.tag-cloud-level-1 { font-size: .5625rem; }
+.tag-cloud-level-2 { font-size: .625rem; }
+.tag-cloud-level-3 { font-size: .75rem; }
+.tag-cloud-level-4 { font-size: .875rem; }
+.tag-cloud-level-5 { font-size: 1rem; }
+.tag-cloud-level-6 { font-size: 1.125rem; }
+.tag-cloud-level-7 { font-size: 1.25rem; }
+.tag-cloud-level-8 { font-size: 1.375rem; }
+.tag-cloud-level-9 { font-size: 1.5rem; }
+.tag-cloud-level-10 { font-size: 1.625rem; }
+
+.c64-side .tag-cloud-level-3 a,
+.c64-side .tag-cloud-level-4 a {
+    color: var(--c64-cyan);
+}
+
+.c64-side .tag-cloud-level-5 a,
+.c64-side .tag-cloud-level-6 a {
+    color: var(--c64-yellow);
+}
+
+.c64-side .tag-cloud-level-7 a,
+.c64-side .tag-cloud-level-8 a,
+.c64-side .tag-cloud-level-9 a,
+.c64-side .tag-cloud-level-10 a {
+    color: var(--c64-green);
+}
+
+/* The random quote (the quotes module's): orange characters in a dashed
+   frame. */
+.c64-side .block-quotes {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 6px dashed var(--c64-orange);
+    color: var(--c64-orange);
+}
+
+.c64-side .block-quotes .quote-text {
+    font-family: var(--c64-pixel);
+    font-size: .6875rem;
+    line-height: 1.9;
+    text-transform: uppercase;
+}
+
+.c64-side .block-quotes .quote-text p:last-child {
+    margin-bottom: 0;
+}
+
+.c64-side .block-quotes .quotes-author {
+    margin-top: .625rem;
+}
+
+.c64-side .block-quotes .quotes-author a {
+    color: var(--c64-orange);
+}
+
+/* Footer: the Commodore's stripes, the footer menu, the year, READY. */
+.site-footer.c64-footer {
+    margin-top: 0;
+    padding: 1rem 2.25rem 2.5rem;
+    border: 0;
+    color: var(--c64-text);
+    font-family: var(--c64-pixel);
+    font-size: .75rem;
+    line-height: 2;
+    text-transform: uppercase;
+}
+
+.c64-stripes {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 1.5rem;
+}
+
+.c64-stripes span {
+    height: 8px;
+}
+
+.c64-stripes span:nth-child(1) { background: var(--c64-red); }
+.c64-stripes span:nth-child(2) { background: var(--c64-orange); }
+.c64-stripes span:nth-child(3) { background: var(--c64-yellow); }
+.c64-stripes span:nth-child(4) { background: var(--c64-green); }
+.c64-stripes span:nth-child(5) { background: var(--c64-cyan); }
+
+.c64-footer .site-footer-region ul.menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem 1.75rem;
+    margin: 0 0 1rem;
+    padding: 0;
+    list-style: none;
+}
+
+.c64-footer .site-footer-region ul.menu ul {
+    display: none;
+}
+
+.c64-footer a {
+    color: var(--c64-cyan);
+}
+
+.c64-footer .site-footer-credit {
+    margin: 0;
+    color: var(--c64-text);
+    font-size: .75rem;
+}
+
+/* A phone: a thinner border, less room inside the screen. */
+@media (max-width: 575.98px) {
+    body {
+        padding: 1rem;
+    }
+
+    .site-header.c64-header,
+    body > .container-content,
+    .site-footer.c64-footer {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
+
+    .c64-main .view-list-item,
+    .c64-main .item-list:has(> .view-list-item .item-field-image) > .view-list-item {
+        padding: 0 .875rem 1rem;
+    }
+
+    .c64-main .view-list-item > .item-field-name-title,
+    .c64-main .item-list:has(> .view-list-item .item-field-image) > .view-list-item > .item-field.item-field-name-title {
+        flex-basis: calc(100% + 1.75rem);
+        margin: 0 -.875rem .875rem;
+    }
+
+    .site-header.c64-header {
+        font-size: .6875rem;
+    }
+
+    .c64-header-region .c64-menu-directory a {
+        grid-template-columns: 4ch minmax(0, auto) auto;
+        column-gap: 1ch;
+    }
+
+    .c64-dir-head .c64-dir-file {
+        min-width: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .c64-blink {
+        animation: none;
+    }
+}
