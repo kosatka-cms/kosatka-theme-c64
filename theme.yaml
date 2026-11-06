@@ -18,7 +18,7 @@ license: MIT
 version: 0.1.0
 min_version: 0.1.0
 homepage: https://github.com/kosatka-cms/kosatka-theme-c64
-tags: [retro, dark, pixel, two-columns, responsive]
+tags: [retro, dark, pixel, responsive]
 screenshot: screenshot.jpg
 # default_region - where new blocks go.
 default_region: sidebar
