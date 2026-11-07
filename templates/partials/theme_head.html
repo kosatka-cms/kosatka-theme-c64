@@ -1,16 +1,15 @@
 {{/* The c64 theme's hooks (see the engine's partials/theme_head.html):
      theme_framework - Bootstrap 5.3 in its dark scheme (the screen is
-     dark; set before the page paints) and the theme's fonts (Press Start
-     2P - the machine's characters - for headings, menus, buttons and
-     labels; IBM Plex Mono for the text); theme_head - the engine's
+     dark; set before the page paints) and the theme's fonts
+     (css/fonts.css, the files in static/fonts: Press Start 2P - the
+     machine's characters - for headings, menus, buttons and labels; IBM
+     Plex Mono for the text); theme_head - the engine's
      base.css with the theme's c64.css over it; theme_editor_css - the
      same for the editors. */}}
 {{define "theme_framework"}}
     <script>document.documentElement.setAttribute("data-bs-theme","dark")</script>
     <link rel="stylesheet" href="{{ staticCSS "bootstrap" }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="{{ themeCSS "fonts" }}">
 {{end}}
 {{define "theme_head"}}
     <link rel="stylesheet" href="{{ staticCSS "base" }}">
@@ -19,4 +18,4 @@
 {{/* The editors' text as the page's: Bootstrap, the fonts, base.css and
      c64.css, then a subtheme's stylesheets (TinyMCE's content_css
      takes a comma-separated list). */}}
-{{define "theme_editor_css"}}{{ staticCSS "bootstrap" }},https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Press+Start+2P&display=swap,{{ staticCSS "base" }},{{ themeCSS "c64" }}{{range themeStylesheets}},{{.}}{{end}}{{end}}
+{{define "theme_editor_css"}}{{ staticCSS "bootstrap" }},{{ themeCSS "fonts" }},{{ staticCSS "base" }},{{ themeCSS "c64" }}{{range themeStylesheets}},{{.}}{{end}}{{end}}
