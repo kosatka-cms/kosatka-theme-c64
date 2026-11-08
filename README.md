@@ -7,7 +7,28 @@ colours, a blinking cursor and scanlines.
 
 ![C64](https://raw.githubusercontent.com/kosatka-cms/kosatka-theme-c64/main/static/screenshot.jpg)
 
+## Screenshots
+
+The [demo site](#a-demo-site); a picture opens the whole page.
+
+<table>
+  <tr>
+    <td width="50%"><a href="docs/screenshots/home.webp"><img src="docs/screenshots/home-preview.webp" alt="The front page"></a><br>The front page: the posts as cards in the machine's colours, the newest marked NEW!</td>
+    <td width="50%"><a href="docs/screenshots/post.webp"><img src="docs/screenshots/post-preview.webp" alt="A post"></a><br>A post</td>
+  </tr>
+  <tr>
+    <td><a href="docs/screenshots/listing.webp"><img src="docs/screenshots/listing-preview.webp" alt="A post with a listing"></a><br>A listing to type in</td>
+    <td><a href="docs/screenshots/section.webp"><img src="docs/screenshots/section-preview.webp" alt="A term's page"></a><br>A term's page</td>
+  </tr>
+  <tr>
+    <td><a href="docs/screenshots/phone-home.webp"><img src="docs/screenshots/phone-home-preview.webp" alt="The front page on a phone" width="48%"></a> <a href="docs/screenshots/phone-post.webp"><img src="docs/screenshots/phone-post-preview.webp" alt="A post on a phone" width="48%"></a><br>On a phone: the front page, a post</td>
+    <td></td>
+  </tr>
+</table>
+
 ## Install
+
+Kosatka 0.1.7 or newer.
 
 ```bash
 app theme add https://github.com/kosatka-cms/kosatka-theme-c64
@@ -15,6 +36,32 @@ app theme add https://github.com/kosatka-cms/kosatka-theme-c64
 
 Then commit `themes/` and choose *C64* on *Appearance*. See
 [Distributing a theme](https://kosatka-cms.github.io/kosatka/themes/distribute/).
+
+More themes for Kosatka: the [themes catalog](https://github.com/kosatka-cms/themes).
+
+## A demo site
+
+The theme comes with a demo site in English (`demo/en.yaml`): "8-Bit
+Basement", a club of people who keep old home computers running -
+repairs, projects, programs to type in and the club's news, with
+comments, sections and tags. Everything in it is made up - the club, the
+people and the posts; its pictures are drawn for it as the machine's
+graphics, wide pixels in its sixteen colours, and come with the theme
+(`demo/images`). The listings are in a text format of the demo's own,
+*HTML with listings*, which keeps them when a post is edited. On a new
+site:
+
+```bash
+app install -site-name "8-Bit Basement" -admin-name admin -admin-email admin@example.com \
+  -language en -demo-set c64
+```
+
+Everything the demo creates is ordinary content, Views and blocks,
+changed or deleted in the admin.
+
+The screenshots above are of it: `python3 scripts/screenshots.py
+http://127.0.0.1:8080` (the demo site's address) takes them again into
+`docs/screenshots/` - Python 3 and Google Chrome are all it needs.
 
 ## Settings
 
@@ -35,7 +82,9 @@ On *Appearance → C64 → Settings*:
 The engine's regions - *Main menu* (the header, under the boot message),
 *Sidebar*, *Content top*, *Content bottom*, *Inside content*, *Footer*,
 *Footer bottom line* - so blocks placed for another theme stay where
-they are. A new site gets the copyright block in *Footer bottom line*.
+they are. A new site gets the copyright block and a "Powered by Kosatka
+CMS" block in *Footer bottom line*; both are ordinary blocks to change
+or remove on *Blocks*.
 
 ## Fonts
 

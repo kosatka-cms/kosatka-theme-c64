@@ -1,0 +1,307 @@
+# The c64 theme's demo site (app install -demo-set c64): "8-Bit
+# Basement", a club of people who keep old home computers running -
+# repairs, projects, type-in listings, the club's news. The posts as
+# cards in the machine's colours, the pinned one marked NEW!, the
+# sections in the menu as a BASIC listing. Everything here is made up -
+# the club, the people and the posts; the pictures are the theme's own
+# (demo/images), drawn for it as the machine's graphics - wide pixels, its
+# sixteen colours - and the listings are the posts' own.
+site:
+  slogan: 64 MEMBERS  38911 BYTES OF NEWS FREE
+  front_page_view: home
+  main_menu: main
+  footer_menu: footer
+
+# The listings are code blocks (pre): a format of the set's own keeps
+# them when a post is edited and saved.
+text_formats:
+  - name: listing_html
+    label: HTML with listings
+    # Before Basic HTML (0): a post's text is saved in it.
+    weight: -1
+    allowed_tags: p br strong em u s a ul ol li blockquote h2 h3 h4 img pre code
+    rich_editor: true
+    plugins: link image code lists codesample
+    toolbar: undo redo | blocks | bold italic | bullist numlist | link image | codesample | code
+
+users:
+  - tape_loader
+  - joy_port
+  - pixel_pete
+  - floppy_fran
+  - solder_sam
+  - ready_prompt
+
+vocabularies:
+  - name: sections
+    label: Sections
+    path: sections
+    terms:
+      - {name: News, description: "The club's evenings, parties and swap meets."}
+      - {name: Projects, description: "Things we build with and for the old machines."}
+      - {name: Listings, description: "Programs to type in, line by line, the way it used to be done."}
+      - {name: Repairs, description: "Keeping forty-year-old hardware alive, one part at a time."}
+  - name: tags
+    label: Tags
+    path: tags
+    terms: [basic, type-in, cassette, floppy, joystick, chiptune, sprites, soldering, crt, demo party, keyboard, power supply, beginners, sound]
+
+field_storages:
+  - {name: field_section, type: taxonomy, vocabulary: sections}
+  - {name: field_tags, type: taxonomy, vocabulary: tags, multiple: true}
+
+content_types:
+  - name: post
+    label: Post
+    description: A post of the club - news, a project, a repair or a listing to type in - with its picture.
+    path: posts
+    comments: open
+    show_submitted: true
+    show_view_count: true
+    promote: true
+    fields:
+      - {storage: field_image, label: Picture, show_on_detail: true, detail_image_style: article_wide, list_image_style: article_card, sort_order: 0, display_order: 0}
+      - {storage: field_section, label: Section, widget: select, show_on_detail: true, sort_order: 10, display_order: 5}
+      - {storage: field_body, label: Text, widget: textarea, text_formats: [listing_html, basic_html, plain_text], show_on_detail: true, renders_in_body: true, sort_order: 20, display_order: 10}
+      - {storage: field_tags, label: Tags, widget: autocomplete, show_on_detail: true, show_label: true, sort_order: 30, display_order: 20}
+
+nodes:
+  - key: demo_party
+    type: post
+    title: "Our first demo party: one weekend, three screens"
+    author: ready_prompt
+    sticky: true
+    ago: 1d
+    views: 2050
+    fields:
+      field_image: {file: images/demo-party.webp}
+      field_section: News
+      field_tags: [demo party, chiptune, crt]
+      field_body: |
+        <p>Twenty-two members, three tables of machines, one rule: everything shown on Sunday evening is made during the weekend. Here is how it went.</p>
+        <h2>Friday</h2>
+        <p>The cables came first. Every machine needs its own screen, and the club owns exactly three televisions that still show colour. We drew lots: the losers got the black-and-white set and a lot of sympathy.</p>
+        <h2>Saturday</h2>
+        <p>The quietest day. Somebody hummed a tune for six hours until it became music; somebody else drew a logo on squared paper and typed it in as numbers. At midnight the first raster bars rolled across a screen and the whole room clapped.</p>
+        <blockquote><p>A demo is a program that does nothing useful, as beautifully as it can.</p></blockquote>
+        <h2>Sunday</h2>
+        <p>Last-minute bugs, last-minute saves. Two entries were saved to the same cassette, one on top of the other; we recovered the second one, mostly.</p>
+        <h2>The results</h2>
+        <p>Five entries, three screens, one winner chosen by applause: a scrolling greeting to every member by name, with a chiptune that nobody can get out of their heads. The entries are on the club's disk; bring a blank one to the next evening.</p>
+    comments:
+      - author: pixel_pete
+        body: The logo on squared paper was mine. Typing it in took longer than drawing it.
+        replies:
+          - author: ready_prompt
+            body: And it was worth every line.
+      - author: tape_loader
+        body: I'm still sorry about the cassette.
+  - key: bouncing_ball
+    type: post
+    title: "Type-in: a ball that bounces down the screen"
+    author: pixel_pete
+    ago: 3d
+    views: 1480
+    fields:
+      field_image: {file: images/bouncing-ball.webp}
+      field_section: Listings
+      field_tags: [basic, type-in, beginners]
+      field_body: |
+        <p>Seven lines, and something moves. Type it in, RUN it, then change the numbers and see what happens:</p>
+        <pre><code>10 REM A BALL THAT BOUNCES
+        20 X=1:DX=1
+        30 FOR T=1 TO 200
+        40 PRINT TAB(X);"O"
+        50 X=X+DX
+        60 IF X&gt;30 OR X&lt;1 THEN DX=-DX
+        70 NEXT T
+        </code></pre>
+        <p>Line 60 is the bounce: when the ball reaches an edge, its direction turns round. Try a bigger step in line 20, or a second ball with its own X.</p>
+    comments:
+      - author: joy_port
+        body: My kids changed the O to a star and called it a comet. Good listing.
+  - key: joystick_repair
+    type: post
+    title: Bringing a dead joystick back to life
+    author: solder_sam
+    ago: 5d
+    views: 1290
+    fields:
+      field_image: {file: images/joystick-repair.webp}
+      field_section: Repairs
+      field_tags: [joystick, soldering]
+      field_body: |
+        <p>Up worked, down worked, fire did nothing. Inside, under four screws, were five tiny switches and one broken wire at the fire button.</p>
+        <p>Ten minutes with the iron, a new length of wire, and the stick went back to work. While it was open we cleaned the contacts too: a drop of alcohol on a cotton bud, nothing stronger.</p>
+  - key: cassette
+    type: post
+    title: Loading a cassette thirty years later
+    author: tape_loader
+    ago: 7d
+    views: 1730
+    fields:
+      field_image: {file: images/cassette.webp}
+      field_section: Projects
+      field_tags: [cassette]
+      field_body: |
+        <p>A box of tapes from a loft, labels in a child's handwriting. Most of them loaded on the third try, after cleaning the deck's head and adjusting it with a small screwdriver until the screen's stripes settled.</p>
+        <p>One tape held a game its owner had written at eleven. She came to the club to see it run again.</p>
+    comments:
+      - author: floppy_fran
+        body: The best story we have had all year.
+  - key: guess_the_number
+    type: post
+    title: "Type-in: guess the number, the first game we all wrote"
+    author: ready_prompt
+    ago: 10d
+    views: 1120
+    fields:
+      field_image: {file: images/guess-the-number.webp}
+      field_section: Listings
+      field_tags: [basic, type-in, beginners]
+      field_body: |
+        <p>Every member of the club has written this game at least once. Here is the club's version, to type in with a beginner sitting beside you:</p>
+        <pre><code>10 PRINT "I AM THINKING OF A NUMBER"
+        20 N=INT(RND(1)*100)+1:T=0
+        30 INPUT "YOUR GUESS";G
+        40 T=T+1
+        50 IF G&lt;N THEN PRINT "HIGHER":GOTO 30
+        60 IF G&gt;N THEN PRINT "LOWER":GOTO 30
+        70 PRINT "YES! IN";T;"TRIES"
+        </code></pre>
+        <p>Then ask the question every beginner gets to: what is the smallest number of tries that always works?</p>
+  - key: floppy_drive
+    type: post
+    title: Cleaning a floppy drive's head
+    author: floppy_fran
+    ago: 13d
+    views: 940
+    fields:
+      field_image: {file: images/floppy-drive.webp}
+      field_section: Repairs
+      field_tags: [floppy]
+      field_body: |
+        <p>The drive spun, the light came on, the screen said nothing. Years of dust on the head will do that. Open the case, find the head, clean it gently with alcohol on a cotton bud - and never with the drive switched on.</p>
+  - key: chiptune
+    type: post
+    title: "Our first chiptune: three voices, one evening"
+    author: joy_port
+    ago: 16d
+    views: 1060
+    fields:
+      field_image: {file: images/chiptune.webp}
+      field_section: Projects
+      field_tags: [chiptune, sound]
+      field_body: |
+        <p>The machine has three voices: one plays the tune, one the bass, one the drums made of noise. We wrote the notes on paper first, as numbers, then typed them in one by one.</p>
+        <p>It took the whole evening and sounded like a doorbell with ambitions. We played it twelve times.</p>
+  - key: sprite_on_paper
+    type: post
+    title: Drawing a sprite on squared paper
+    author: pixel_pete
+    ago: 19d
+    views: 880
+    fields:
+      field_image: {file: images/sprite-on-paper.webp}
+      field_section: Projects
+      field_tags: [sprites, beginners]
+      field_body: |
+        <p>A sprite is a little picture the machine moves around by itself. Ours start on squared paper: a grid, a pencil, a rocket. Every row becomes three numbers, and the numbers go into the program.</p>
+        <p>Bring paper to the next evening: we'll draw yours.</p>
+  - key: swap_meet
+    type: post
+    title: "Swap meet in March: what to bring"
+    author: ready_prompt
+    ago: 22d
+    views: 760
+    fields:
+      field_image: {file: images/swap-meet.webp}
+      field_section: News
+      field_tags: [keyboard, cassette, floppy]
+      field_body: |
+        <p>Tables for everyone who wants one. Bring what you have twice, what you don't need and what you can't fix - somebody else can. Label it, price it or mark it "swap only".</p>
+        <p>Spare keys for keyboards are the most wanted thing every year; check your drawers.</p>
+  - key: power_supply
+    type: post
+    title: Recapping a power supply, carefully
+    author: solder_sam
+    ago: 26d
+    views: 1010
+    fields:
+      field_image: {file: images/power-supply.webp}
+      field_section: Repairs
+      field_tags: [power supply, soldering]
+      field_body: |
+        <p>Old capacitors dry out, and a power supply that drifts can damage the machine it feeds. We replace them one at a time, the same value and voltage, the stripe on the same side.</p>
+        <p>The rule of the club: the supply is unplugged and has stood for a day before anyone opens it. No exceptions.</p>
+
+  - key: about
+    type: page
+    title: About
+    path: about
+    fields:
+      field_body: |
+        <p>8-Bit Basement is a demo site of the Kosatka engine and its C64 theme: a club of people who keep old home computers running. Everything here - the club, the people and the posts - is made up; the pictures are drawn for it.</p>
+        <p>The posts are ordinary content, changed and deleted in the admin; the sections and the tags are terms, the sidebar is blocks.</p>
+
+views:
+  - name: home
+    label: Posts on the front page
+    display_type: block
+    style: list
+    pager: true
+    page_size: 8
+    fields:
+      - {storage: field_image, image_style: article_card, link_to: content}
+      - {storage: field_section, tag_format: badges}
+      - {builtin: title, link_to: content}
+      - {builtin: author, show_label: true}
+      - {builtin: created_at, date_format: medium}
+      - {storage: field_body, trim_length: 220}
+      - {storage: field_tags, tag_format: linked, show_label: true}
+      - {builtin: view_count, show_label: true}
+      - {builtin: comment_count, show_label: true}
+    filters:
+      - {builtin: status, operator: eq, value: "1"}
+      - {builtin: promote, operator: eq, value: "1"}
+      - {builtin: on_moderation, operator: eq, value: "0"}
+    sorts:
+      - {builtin: sticky, direction: desc}
+      - {builtin: created_at, direction: desc}
+  - name: popular
+    label: Popular
+    display_type: block
+    style: list
+    page_size: 5
+    fields:
+      - {builtin: title, link_to: content}
+      - {builtin: view_count, show_label: true}
+    filters:
+      - {builtin: content_type, operator: in, value: post}
+      - {builtin: status, operator: eq, value: "1"}
+    sorts:
+      - {builtin: views, direction: desc}
+
+blocks:
+  - {region: sidebar, plugin: search_form, title: Search, weight: 1}
+  - region: sidebar
+    weight: 2
+    title: About the club
+    show_title: true
+    body: <p>People who keep old home computers running - repairs, projects and programs to type in, one evening a week.</p><p><a href="/about">More about us</a></p>
+  - {region: sidebar, view: popular, title: Popular, show_title: true, weight: 3}
+  - {region: sidebar, plugin: last_comments, title: Recent comments, show_title: true, weight: 4}
+  - {region: sidebar, plugin: tag_cloud, vocabulary: tags, title: Tags, show_title: true, weight: 5, config: {count: "14"}}
+
+menus:
+  - name: main
+    links:
+      - {title: News, term: sections/News}
+      - {title: Projects, term: sections/Projects}
+      - {title: Listings, term: sections/Listings}
+      - {title: Repairs, term: sections/Repairs}
+  - name: footer
+    label: Footer
+    region: footer
+    links:
+      - {title: About, node: about}

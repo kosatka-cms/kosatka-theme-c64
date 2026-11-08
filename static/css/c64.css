@@ -375,6 +375,19 @@ body > .container-content {
     overflow-wrap: anywhere;
 }
 
+/* A term's description on its page, between the title and the list: a
+   REM line of the listing. */
+.term-description {
+    max-width: 44rem;
+    margin-bottom: 1.75rem;
+    color: var(--c64-text);
+}
+
+.term-description::before {
+    content: "REM ";
+    color: var(--c64-cyan);
+}
+
 /* Keys: Bootstrap's buttons in reverse (the colour of their kind, an
    outline one framed), the engine's own actions alike. */
 .btn {
